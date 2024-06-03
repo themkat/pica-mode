@@ -2,7 +2,7 @@
 
 ;; URL: https://github.com/themkat/pica-mode
 ;; Version: 0.0.1
-;; Package-Requires: ((emacs "24.4") (lsp-mode "8.0.0"))
+;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -37,15 +37,21 @@
                      t)
          'font-lock-builtin-face)
 
-    ;; opcodes
-    (cons (regexp-opt '("nop" "end" "emit"
-                        "setemit" "add" "dp3" "dp4" "dph" "dst"
-                        "mul" "sge" "slt" "max" "min" "ex2" "lg2"
-                        "litp" "flr" "rcp" "rsq" "mov" "mova" "cmp"
-                        "call" "for" "break" "breakc" "callc" "ifc"
-                        "jmpc" "callu" "ifu" "jmpu" "mad")
-                      t)
-          'font-lock-keyword-face)))
+   ;; labels
+   (cons "[a-zA-Z0-9_]+\\:" 'font-lock-function-name-face)
+
+   ;; opcodes
+   (cons (regexp-opt '("nop" "end" "emit"
+                       "setemit" "add" "dp3" "dp4" "dph" "dst"
+                       "mul" "sge" "slt" "max" "min" "ex2" "lg2"
+                       "litp" "flr" "rcp" "rsq" "mov" "mova" "cmp"
+                       "call" "for" "break" "breakc" "callc" "ifc"
+                       "jmpc" "callu" "ifu" "jmpu" "mad")
+                     t)
+         'font-lock-keyword-face)
+
+   ;; Registers (o0-o15, v0-15, r0-15)
+   (cons "[ ]+[ovr][0-9][0-9]?[ ]*" 'font-lock-variable-name-face)))
 
 
 (define-derived-mode pica-mode
