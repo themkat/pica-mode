@@ -53,13 +53,43 @@
    ;; Registers (o0-o15, v0-15, r0-15)
    (cons "[ ]+[ovr][0-9][0-9]?[ ]*" 'font-lock-variable-name-face)))
 
+(defun pica--jump-to-prev-non-empty-line ()
+  "Jumps to first non-empty line, or the beginning of the buffer. Used for indentation."
+  (forward-line -1)
+  (back-to-indentation)
+  (when (and (not (bobp))
+             (looking-at "^[[:blank:]]*$"))
+    (pica--jump-to-prev-non-empty-line)))
+
+;; TODO: prettify. maybe some constants n sheet
+(defun pica-indent-line ()
+  "Indents line according to simple formatting rules. Like those used in DevkitPro 3ds examples."
+  (beginning-of-line)
+  (let (prev-indent
+        prev-is-proc-block
+        prev-is-label)
+    (save-excursion
+      (pica--jump-to-prev-non-empty-line)
+      (setq prev-indent (current-indentation))
+      (setq prev-is-proc-block (looking-at "^\.proc .*$"))
+      (setq prev-is-label (looking-at "^[[:blank:]]*.+:")))
+    (cond ((or (bobp)
+               (looking-at "^[[:blank:]]*.+:"))
+           (indent-line-to 0))
+          ((looking-at "^[[:blank:]]*\.end")
+           (indent-line-to (- prev-indent 4))
+           )
+          ((or prev-is-label prev-is-proc-block)
+           (indent-line-to (+ prev-indent 4)))
+          (t
+           (indent-line-to prev-indent)))))
 
 (define-derived-mode pica-mode
   prog-mode
   "Pica200 Mode"
   "Mode for editing Pica200 shaders."
-  ;; TODO: set the variables font-lock-defaults and indent-line-function
-  (setq font-lock-defaults '(pica-font-lock-keywords nil t)))
+  (setq font-lock-defaults '(pica-font-lock-keywords nil t))
+  (setq indent-line-function 'pica-indent-line))
 
 (provide 'pica-mode)
 ;;; pica-mode.el ends here
