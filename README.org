@@ -1,3 +1,28 @@
 * pica-mode - PICA200 Assembly language mode for Emacs
 
-Syntax highlighting and complete basics. Maybe some sort of error check as well? Picasso shader assemble check?
+Syntax highlighting and indentation for Pica200 Assembly language.
+
+[[./screenshot.png]]
+(loop subdivision geometry shader example from [[https://github.com/devkitPro/3ds-examples/blob/979ab794de89f1ce30a2e307a8dc17fc4fe1d684/graphics/gpu/loop_subdivision/source/program.g.pica][DevkitPro 3ds-examples]])
+
+** Installation
+*** use-package with straight.el
+Package is sadly not on MELPA yet, but you can use use-package with straight.el:
+
+#+BEGIN_SRC emacs-lisp
+  (use-package pica-mode
+    :straight (pica-mode :type git :host github :repo "themkat/pica-mode"))
+#+END_SRC
+
+*** Manually
+Clone this repo to anywhere on your machine. Then in your Emacs configuration, you simply run:
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'load-path "path/to/repo")
+  (require 'pica-mode)
+#+END_SRC
+(where "path/to/repo" is replaced with the actual path to the repo you cloned)
+
+
+** Usage
+Simply install the package and activate =pica-mode= in your buffer. 
