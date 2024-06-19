@@ -14,8 +14,16 @@ Package is sadly not on MELPA yet, but you can use use-package with straight.el:
     :straight (pica-mode :type git :host github :repo "themkat/pica-mode"))
 #+END_SRC
 
+If you use the same file endings as the DevkitPro 3ds examples, .pica, and want to use pica-mode on those, you can use:
+
+#+BEGIN_SRC emacs-lisp
+  (use-package pica-mode
+    :straight (pica-mode :type git :host github :repo "themkat/pica-mode")
+    :mode "\\.pica\\'")
+#+END_SRC
+
 *** Manually
-Clone this repo to anywhere on your machine. Then in your Emacs configuration, you simply run:
+Clone this repo to anywhere on your machine. Then, in your Emacs configuration, you simply run:
 
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path "path/to/repo")
@@ -23,6 +31,10 @@ Clone this repo to anywhere on your machine. Then in your Emacs configuration, y
 #+END_SRC
 (where "path/to/repo" is replaced with the actual path to the repo you cloned)
 
+Similarly, if you want to open .pica files in pica-mode:
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.pica\\'" . pica-mode))
+#+END_SRC
 
 ** Usage
 Simply install the package and activate =pica-mode= in your buffer. 
